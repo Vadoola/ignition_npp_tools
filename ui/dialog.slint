@@ -1,0 +1,47 @@
+import { Button, VerticalBox , LineEdit, HorizontalBox} from "std-widgets.slint";
+export component Dialog {
+    out property <float> x_shift: x_in.text.to-float();
+    out property <float> y_shift: y_in.text.to-float();
+
+    callback close();
+
+    width: 200px;
+    VerticalBox {
+        alignment: start;
+        Text {
+            text: "Enter values to shift the\npipes by.";
+            //horizontal-alignment: center;
+        }
+        Text {
+            text: "Negative X shifts to the left";
+        }
+        Text {
+            text: "Negative Y shifts upwards";
+        }
+
+        HorizontalBox {
+            Text {
+                text: "X:";
+                vertical-alignment: center;
+            }
+            x_in := LineEdit {  }
+        }
+
+        HorizontalBox {
+            Text {
+                text: "Y:";
+                vertical-alignment: center;
+            }
+            y_in := LineEdit {  }
+        }
+
+        HorizontalLayout {
+            alignment: center;
+            Button {
+                text: "OK!";
+
+                clicked => { close() }
+            }
+        }
+    }
+}
