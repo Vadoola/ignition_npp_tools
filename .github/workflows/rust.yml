@@ -22,7 +22,6 @@ jobs:
       run: cargo test --verbose
     - name: Zip bundle
       run: |
-          cd function
           zip -r ../${{ github.sha }}.zip .
     - name: Archive artifact
       uses: actions/upload-artifact@v2
