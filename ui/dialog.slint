@@ -5,7 +5,7 @@ export component Dialog {
 
     callback close();
 
-    width: 200px;
+    width: 300px;
     VerticalBox {
         alignment: start;
         Text {
@@ -13,32 +13,36 @@ export component Dialog {
             //horizontal-alignment: center;
         }
         Text {
-            text: "Negative X shifts to the left";
+            text: "Negative X shifts to the left \nPositive to the Right";
         }
         Text {
-            text: "Negative Y shifts upwards";
+            text: "Negative Y shifts up\nPositive down";
         }
 
         HorizontalBox {
             Text {
-                text: "X:";
+                text: "X Shift:";
                 vertical-alignment: center;
             }
-            x_in := LineEdit {  }
+            x_in := LineEdit {
+                text: 0;
+            }
         }
 
         HorizontalBox {
             Text {
-                text: "Y:";
+                text: "Y Shift:";
                 vertical-alignment: center;
             }
-            y_in := LineEdit {  }
+            y_in := LineEdit {
+                text: 0;
+            }
         }
 
         HorizontalLayout {
             alignment: center;
             Button {
-                text: "OK!";
+                text: "Accept";
 
                 clicked => { close() }
             }

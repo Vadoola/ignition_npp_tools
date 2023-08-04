@@ -1,4 +1,4 @@
-use crate::def::{function_item_text, FuncItem, NppData, ShortcutKey};
+use crate::def::{function_item_text, FuncItem, NppData /*, ShortcutKey*/};
 use crate::functions;
 
 pub static mut NPP_DATA: Option<NppData> = None;
@@ -19,20 +19,20 @@ static mut SHORT_KEY_CTRL_F10: ShortcutKey = ShortcutKey {
 
 pub fn FuncItem_MovePipes() -> FuncItem {
     FuncItem {
-        _itemName: function_item_text("Move Pipes"),
-        _pFunc: functions::move_objects,
-        _cmdID: 0,
-        _init2Check: false,
-        //_pShKey: unsafe { &mut SHORT_KEY_F10 as *mut ShortcutKey as usize },
-        _pShKey: 0,
+        itemName: function_item_text("Move Pipes"),
+        pFunc: functions::move_objects,
+        cmdID: 0,
+        init2Check: false,
+        //pShKey: unsafe { &mut SHORT_KEY_F10 as *mut ShortcutKey as usize },
+        pShKey: 0,
     }
 }
 
-pub fn getNppHandle() -> &'static mut NppData {
+/*pub fn getNppHandle() -> &'static mut NppData {
     unsafe {
         match NPP_DATA {
             Some(ref mut x) => &mut *x,
             None => panic!(),
         }
     }
-}
+}*/

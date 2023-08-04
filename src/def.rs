@@ -6,31 +6,31 @@ pub type Tchar = u16;
 #[repr(C)]
 #[derive(Clone)]
 pub struct NppData {
-    pub _nppHandle: HWND,
-    pub _scintillaMainHandle: HWND,
-    pub _scintillaSecondHandle: HWND,
+    pub nppHandle: HWND,
+    pub scintillaMainHandle: HWND,
+    pub scintillaSecondHandle: HWND,
 }
 
 #[repr(C)]
 pub struct ShortcutKey {
-    pub _isCtrl: bool,
-    pub _isAlt: bool,
-    pub _isShift: bool,
-    pub _key: c_uchar,
+    pub isCtrl: bool,
+    pub isAlt: bool,
+    pub isShift: bool,
+    pub key: c_uchar,
 }
 
 #[repr(C)]
 pub struct FuncItem {
-    pub _itemName: [Tchar; 64],
-    pub _pFunc: extern "C" fn(),
-    pub _cmdID: c_int,
-    pub _init2Check: bool,
+    pub itemName: [Tchar; 64],
+    pub pFunc: extern "C" fn(),
+    pub cmdID: c_int,
+    pub init2Check: bool,
 
     /*This was taken from the rustnpp project (which is many years old and doesn't compile)
      **per the plugin template project from Notepad++ this is actually a pointer to a ShortcutKey struct
      **might need to look into updating this later, but for now it's probably fine because I don't think I'm using it
      */
-    pub _pShKey: usize,
+    pub pShKey: usize,
 }
 
 pub fn to_wide_chars(s: &str) -> Vec<u16> {
@@ -45,13 +45,18 @@ pub fn to_wide_chars(s: &str) -> Vec<u16> {
 pub fn from_wide_ptr(ptr: *const u16) -> String {
     use std::ffi::OsString;
     use std::os::windows::ffi::OsStringExt;
-    unsafe {
-        assert!(!ptr.is_null());
-        let len = (0..std::isize::MAX)
+    assert!(!ptr.is_null());
+    let len = unsafe {
+        (0..std::isize::MAX)
             .position(|i| *ptr.offset(i) == 0)
-            .unwrap();
-        let slice = std::slice::from_raw_parts(ptr, len);
+            //If no null terminating character is found return an empty string instead of pottentially reading memory I shouldn't
+            .unwrap_or(0)
+    };
+    if len > 0 {
+        let slice = unsafe { std::slice::from_raw_parts(ptr, len) };
         OsString::from_wide(slice).to_string_lossy().into_owned()
+    } else {
+        String::new()
     }
 }
 
