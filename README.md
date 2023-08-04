@@ -6,9 +6,9 @@ When you copy a pipe it just copies the raw json to the clipboard. This plug-in 
 
 It's pretty basic, and just uses a basic regex find a replace for all x and y coordinate values.
 
-As someone pointed out, I probably could have done this from within Ignition as a Python script...true, but I guess part of me wanted to:
-    * Practice some Rust / C FFI
-    * See if I could create a Notepad++ plug-in.
+As someone pointed out, I probably could have done this from within Ignition as a Python script...true, but I guess part of me wanted to
+1. Practice some Rust / C FFI
+2. See if I could create a Notepad++ plug-in.
 
 Why choose [Slint](https://slint.dev/) for the dialog box? I initially tried using the Rust [Native Windows Gui](https://crates.io/crates/native-windows-gui) crate since it's just a single simple dialog box, but I have a hi DPI monitor and I couldn't get it to respect the scaling settings. Out of the other Rust Gui options, the only 2 I've spent any time with were Druid (work has moved to Xilem which isn't ready) and Slint, so that seemed like the quick and easy choice.
 
