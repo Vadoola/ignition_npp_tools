@@ -128,10 +128,22 @@ pub extern "C" fn move_objects() {
     if let Ok(dlg) = Dialog::new() {
         let close_handle = dlg.as_weak();
         dlg.on_close(move || {
+            //Try to hide / close the window, not sure what else I can do if this fails
+            //then drop the handle. Since it's been upgraded, will this close the window?
+            //or will the on_close dialog reference still keep it open?
+            if let Some(close_handle) = close_handle.upgrade() {
+                if close_handle.hide().is_err() {
+                    drop(close_handle);
+                }
+            }
+        });
+
+        let shift_handle = dlg.as_weak();
+        dlg.on_shift(move || {
             //not really sure what good options I have if this fails...I guess just do nothing
             //this will leave the dialog box up though...
-            if let Some(close_handle) = close_handle.upgrade() {
-                if let Err(e) = process_json(close_handle.get_x_shift(), close_handle.get_y_shift())
+            if let Some(shift_handle) = shift_handle.upgrade() {
+                if let Err(e) = process_json(shift_handle.get_x_shift(), shift_handle.get_y_shift())
                 {
                     let err_str = match e {
                         Processing_Err::NPPAccessErr => "Unable to access Notepad++ Instance",
@@ -150,12 +162,7 @@ pub extern "C" fn move_objects() {
                     }
                 }
 
-                //Try to hide / close the window, not sure what else I can do if this fails
-                //then drop the handle. Since it's been upgraded, will this close the window?
-                //or will the main dialog reference still keep it open?
-                if close_handle.hide().is_err() {
-                    drop(close_handle);
-                }
+                shift_handle.invoke_close();
             }
         });
 

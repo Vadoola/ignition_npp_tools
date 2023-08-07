@@ -10,18 +10,15 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  release:
+    name: release
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.2
+    - uses: actions/checkout@master
+    - name: Compile and release
+      uses: rust-build/rust-build.action@v1.4.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: buildresult
-        path: ./target/release
+        EXTRA_FILES: "README.md LICENSE-MIT"

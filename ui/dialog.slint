@@ -3,6 +3,7 @@ export component Dialog {
     out property <float> x_shift: x_in.text.to-float();
     out property <float> y_shift: y_in.text.to-float();
 
+    callback shift();
     callback close();
 
     width: 300px;
@@ -39,12 +40,14 @@ export component Dialog {
             }
         }
 
-        HorizontalLayout {
-            alignment: center;
+        HorizontalBox {
             Button {
-                text: "Accept";
-
+                text: "Cancel";
                 clicked => { close() }
+            }
+            Button {
+                text: "Shift";
+                clicked => { shift() }
             }
         }
     }
