@@ -12,7 +12,11 @@ env:
 jobs:
   release:
     name: release
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [x86_64-pc-windows-msvc]
 
     steps:
     - uses: actions/checkout@master
